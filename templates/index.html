@@ -7,11 +7,21 @@
 </head>
 <body>
   <h1>AI Journal Assistant</h1>
-
-  <form method="POST">
+  <form action = "{{ url_for('home') }}" method="POST">
     <textarea name="journal" placeholder="Write your thoughts here..." rows="5" cols="50"></textarea><br>
     <button type="submit">Submit</button>
   </form>
+
+  <h2>Your Journals</h2>
+    <form action = "\view" method = "GET">
+      <select name = "selected_journal"> 
+        <option value ="" disabled selected>Select an entry</option>
+        {% for entry in journals %}
+          <option value="{{ entry.text }}">{{ entry.text[:50] }}{% if entry.text|length > 50 %}...{% endif %}</option>
+        {% endfor %}
+      </select>
+      <button type = "submit">View</button>
+    </form>
 
   {% if ai_response %}
   <div class="response">
@@ -19,5 +29,15 @@
     <p>{{ ai_response }}</p>
   </div>
   {% endif %}
+
+  {% if entry %}
+  <div class = "journalList">
+    <h4>Your Journals</h4>
+    <p>{{entry}}</p>
+    <p>AI Response:</p>
+    <p>{{entry_ai_response}}</p>
+  </div>
+  {% endif %}
+
 </body>
 </html>
